@@ -3,12 +3,17 @@
 const express = require('express');
 const app = express();
 
+//ANCHOR - Middleware untuk mem-parsing body JSON
+app.use(express.json());
+
 //ANCHOR - port configuration
 const port = 3000;
 
 //ANCHOR - import router
 const router = require('./routes/index');
 app.use(router);
+
+
 
 app.get('/', (req, res) => {
     res.send('Welcome guys to express!');

@@ -1,10 +1,9 @@
+const { findAllPerpustakaan, findPerpustakaanById, createNewPerpustakaan } = require('../controller/perpustakaanControllers');
+
 const router = require('express').Router();
 
-router.get('/perpus', (req, res) => {
-    res.json({
-        status: 200,
-        message: "success from router",
-    })
-});
+router.get('/perpustakaan', findAllPerpustakaan);
+router.get('/perpustakaan/:id', findPerpustakaanById); 
+router.post('/perpustakaan', createNewPerpustakaan);
 
 module.exports = router
