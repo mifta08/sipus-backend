@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const { Admin } = require('../models');
 const findAllAdmin = async (req, res, next) => {
     try {
@@ -52,11 +55,42 @@ const registerAdmin = async (req, res, next) => {
 
         res.status(200).json({
             status: 'ok',
-            message: 'create successfully',
+            message: 'User registered successfully',
             data: newAdmin
         })
     } catch (error) {
         next(error);
+    }
+}
+
+const loginAdmin = async (req, res, next) => {
+    try {
+        const { email, password } = req.body
+
+        const admin = await Admin.findOne({ where: { email } });
+
+        if (!admin) {
+            return res.sstatus(401).json({ message: 'Invalid credentials' });
+        }
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        const token = jwt.sign({ id: admin.id }, 'your_jwt_secret', { expiresIn: '1h' }
+        );
+
+        res.json({
+            token,
+            admin: {
+                id: admin.id,
+                name: admin.name,
+                employee_id: admin.employee_id,
+                address: admin.address,
+                email: admin.email,
+            },
+        });
+    } catch (error) {
+        next(error)
     }
 }
 
@@ -110,4 +144,4 @@ const deleteAdmin = async (req, res, next) => {
 
 }
 
-module.exports = { findAllAdmin, findAdminById, registerAdmin, updateAdmin, deleteAdmin }
+module.exports = { findAllAdmin, findAdminById, registerAdmin, loginAdmin, updateAdmin, deleteAdmin }
