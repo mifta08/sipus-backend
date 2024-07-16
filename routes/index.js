@@ -1,4 +1,5 @@
-const { findAllPerpustakaan, findPerpustakaanById, createNewPerpustakaan } = require('../controller/perpustakaanControllers');
+const { findAllLibrary, findLibraryById, createNewLibrary, updateLibrary, deleteLibrary } = require('../controller/libraryControllers');
+const { findAllAdmin, findAdminById, createAdmin, updateAdmin, deleteAdmin } = require('../controller/adminControllers');
 
 //ANCHOR Inisialisasi penggunaan router
 const router = require('express').Router();
@@ -9,10 +10,19 @@ router.get('/', (req, res) => {
 });
 
 
-//ANCHOR - Rute perpustakaan
-router.get('/perpustakaan', findAllPerpustakaan);
-router.get('/perpustakaan/:id', findPerpustakaanById); 
-router.post('/perpustakaan', createNewPerpustakaan);
+//ANCHOR - Library Routes
+router.get('/perpustakaan', findAllLibrary);
+router.get('/perpustakaan/:id', findLibraryById);
+router.post('/perpustakaan', createNewLibrary);
+router.patch('/perpustakaan/:id', updateLibrary);
+router.delete('/perpustakaan/:id', deleteLibrary);
+
+//ANCHOR - Admin Routes
+router.get('/admin', findAllAdmin);
+router.get('/admin/:id', findAdminById);
+router.post('/admin', createAdmin);
+router.patch('/admin/:id', updateAdmin);
+router.delete('/admin/:id', deleteAdmin);
 
 
 module.exports = router
