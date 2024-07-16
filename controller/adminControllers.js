@@ -42,7 +42,7 @@ const findAdminById = async (req, res, next) => {
     }
 }
 
-const createAdmin = async (req, res, next) => {
+const registerAdmin = async (req, res, next) => {
     try {
         const { name, employee_id, address, email, password } = req.body;
 
@@ -110,4 +110,4 @@ const deleteAdmin = async (req, res, next) => {
 
 }
 
-module.exports = { findAllAdmin, findAdminById, createAdmin, updateAdmin, deleteAdmin }
+module.exports = { findAllAdmin, findAdminById, registerAdmin, updateAdmin, deleteAdmin }

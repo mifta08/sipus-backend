@@ -1,5 +1,5 @@
 const { findAllLibrary, findLibraryById, createNewLibrary, updateLibrary, deleteLibrary } = require('../controller/libraryControllers');
-const { findAllAdmin, findAdminById, createAdmin, updateAdmin, deleteAdmin } = require('../controller/adminControllers');
+const { findAllAdmin, findAdminById, registerAdmin, updateAdmin, deleteAdmin } = require('../controller/adminControllers');
 
 //ANCHOR Inisialisasi penggunaan router
 const router = require('express').Router();
@@ -20,7 +20,7 @@ router.delete('/perpustakaan/:id', deleteLibrary);
 //ANCHOR - Admin Routes
 router.get('/admin', findAllAdmin);
 router.get('/admin/:id', findAdminById);
-router.post('/admin', createAdmin);
+router.post('/admin/register', registerAdmin);
 router.patch('/admin/:id', updateAdmin);
 router.delete('/admin/:id', deleteAdmin);
 
