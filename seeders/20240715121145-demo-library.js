@@ -4,7 +4,7 @@ const library = require('../models/library');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Libraries', [
       {
         library_id: '',
@@ -18,7 +18,7 @@ module.exports = {
     ]);
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     return queryInterface.bulkDelete('Libraries', null, {});
   }
 };
