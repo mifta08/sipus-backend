@@ -1,5 +1,20 @@
-const { findAllLibrary, findLibraryById, createNewLibrary, updateLibrary, deleteLibrary } = require('../controller/libraryControllers');
-const { findAllAdmin, findAdminById, registerAdmin, updateAdmin, deleteAdmin, loginAdmin, findAllUser, findUserById, registerUser, loginUser, updateUser, deleteUser } = require('../controller/userControllers');
+const { authenticate, authorize } = require('../middleware/authorization');
+const {
+    findAllLibrary,
+    findLibraryById,
+    createNewLibrary,
+    updateLibrary,
+    deleteLibrary
+} = require('../controller/libraryControllers');
+
+const {
+    findAllUser,
+    findUserById,
+    registerUser,
+    loginUser,
+    updateUser,
+    deleteUser
+} = require('../controller/userControllers');
 
 //ANCHOR Inisialisasi penggunaan router
 const router = require('express').Router();
@@ -11,19 +26,21 @@ router.get('/', (req, res) => {
 
 
 //ANCHOR - Library Routes
-router.get('/perpustakaan', findAllLibrary);
-router.get('/perpustakaan/:id', findLibraryById);
-router.post('/perpustakaan', createNewLibrary);
-router.patch('/perpustakaan/:id', updateLibrary);
-router.delete('/perpustakaan/:id', deleteLibrary);
+router.get('/perpustakaan', authenticate, authorize(['admin']), findAllLibrary);
+router.get('/perpustakaan/:id', authenticate, authorize(['admin']), findLibraryById);
+router.post('/perpustakaan', authenticate, authorize(['admin']), createNewLibrary);
+router.patch('/perpustakaan/:id', authenticate, authorize(['admin']), updateLibrary);
+router.delete('/perpustakaan/:id', authenticate, authorize(['admin']), deleteLibrary);
 
-//ANCHOR - Admin Routes
-router.get('/user', findAllUser);
-router.get('/user/:id', findUserById);
-router.post('/user/register', registerUser);
+//ANCHOR - User Routes
+router.get('/user', authenticate, authorize(['admin']), findAllUser);
+router.get('/user/:id', authenticate, authorize(['admin']), findUserById);
+router.post('/user/register', authenticate, authorize(['admin']), registerUser);
 router.post('/user/login', loginUser);
-router.patch('/user/:id', updateUser);
-router.delete('/user/:id', deleteUser);
+router.patch('/user/:id', authenticate, authorize(['admin']), updateUser);
+router.delete('/user/:id', authenticate, authorize(['admin']), deleteUser);
+
+
 
 
 module.exports = router
