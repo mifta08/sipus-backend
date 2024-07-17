@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { User } = require('../models');
+const { User, Library } = require('../models');
 
 const findAllUser = async (req, res, next) => {
     try {
@@ -50,6 +50,15 @@ const registerUser = async (req, res, next) => {
     try {
         const { name, role, employee_id, address, email, password } = req.body;
 
+        const library = await Library.findOne({ where: { employee_id } });
+
+        if (!library) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Employee ID does not exist in Libraries'
+            });
+        }
+
         const newUser = await User.create({
             name, role, employee_id, address, email, password
         })
@@ -77,7 +86,7 @@ const loginUser = async (req, res, next) => {
         if (!isMatch) {
             return res.status(401).json({ message: 'Password Invalid' });
         }
-        const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' }
+        const token = jwt.sign({ id: user.id, role: user.role }, 'your_jwt_secret', { expiresIn: '1h' }
         );
 
         res.json({
