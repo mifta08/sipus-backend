@@ -17,7 +17,12 @@ module.exports = {
       },
       employee_id: {
         type: Sequelize.INTEGER,
-        unique: true
+        references: {
+          model: 'Libraries', // Nama tabel yang direferensikan
+          key: 'employee_id' // Kolom yang direferensikan
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
       },
       address: {
         type: Sequelize.STRING
