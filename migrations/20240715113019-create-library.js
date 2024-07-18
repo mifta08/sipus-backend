@@ -24,9 +24,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: true
       },
-      isbn: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
