@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     library_name: DataTypes.STRING,
     address: DataTypes.STRING,
     employee_id: DataTypes.STRING,
-    isbn: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Library',
