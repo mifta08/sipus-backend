@@ -10,7 +10,7 @@ const findAllLibrary = async (req, res, next) => {
             data: data
         }
         if (data === undefined && data === null) {
-            return res.status(404).json({ status: 'failed', message: `data book with id ${id} is not found` })
+            return res.status(404).json({ status: 'failed', message: `data Library is not found` })
         }
         res.json(result);
     } catch (err) {
@@ -45,14 +45,14 @@ const findLibraryById = async (req, res, next) => {
 const createNewLibrary = async (req, res, next) => {
     try {
         //ANCHOR - get req body / input from user
-        const { library_id, library_name, address, employee_id, isbn } = req.body;
+        const { library_id, library_name, address, employee_id, } = req.body;
 
         const newLibrary = await Library.create({
             library_id,
             library_name,
             address,
             employee_id,
-            isbn
+
         });
 
         //ANCHOR - send a success response to user if data exists
@@ -69,7 +69,7 @@ const createNewLibrary = async (req, res, next) => {
 
 const updateLibrary = async (req, res, next) => {
     try {
-        const { library_id, library_name, address, employee_id, isbn } = req.body;
+        const { library_id, library_name, address, employee_id } = req.body;
 
         const { id } = req.params;
         const data = await Library.findByPk(id);
@@ -79,13 +79,12 @@ const updateLibrary = async (req, res, next) => {
             data.library_name = library_name;
             data.address = address;
             data.employee_id = employee_id;
-            data.isbn = isbn;
             await data.save();
             res.json(data)
         } else {
             res.status(404).json({
                 status: 'failed',
-                message: `data Library with id ${data} is not found`
+                message: `data Library with id ${id} is not found`
             })
         }
     } catch (error) {
