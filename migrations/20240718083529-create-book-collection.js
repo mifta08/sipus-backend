@@ -9,6 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      book_collection_id: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        unique: true
+      },
       library_id: {
         type: Sequelize.STRING,
         references: {
