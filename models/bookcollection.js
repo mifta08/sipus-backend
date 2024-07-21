@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   BookCollection.init({
+    book_collection_id: DataTypes.STRING,
     library_id: DataTypes.STRING,
     isbn: DataTypes.STRING,
     status: DataTypes.BOOLEAN
