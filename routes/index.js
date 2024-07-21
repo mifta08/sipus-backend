@@ -8,6 +8,8 @@ const { createMember, loginMember, findAllMember, findMemberById, updateMember, 
 
 const { createBook, findAllBook, findBookById, updateBook, deleteBook } = require('../controller/bookControllers');
 
+const { createBookCollection } = require('../controller/bookCollectionControllers');
+
 //ANCHOR Inisialisasi penggunaan router
 const router = require('express').Router();
 
@@ -48,6 +50,9 @@ router.get('/book/:id', findBookById);
 router.post('/book/create-book', createBook);
 router.patch('/book/:id', updateBook);
 router.delete('/book/:id', deleteBook);
+
+//ANCHOR - bookcollections
+router.post('/book/create-collections/', authenticate, createBookCollection)
 
 
 
