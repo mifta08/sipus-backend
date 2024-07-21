@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Member.init({
+    member_id: DataTypes.STRING,
     name: DataTypes.STRING,
     address: DataTypes.STRING,
     number_phone: DataTypes.STRING,
