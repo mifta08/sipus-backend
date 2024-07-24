@@ -50,6 +50,7 @@ const findMemberById = async (req, res, next) => {
 const createMember = async (req, res, next) => {
     try {
         const {
+            member_id,
             name,
             address,
             number_phone,
@@ -67,6 +68,7 @@ const createMember = async (req, res, next) => {
         }
 
         const newMember = await Member.create({
+            member_id,
             name,
             address,
             number_phone,
