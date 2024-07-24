@@ -62,20 +62,27 @@ const getAllBorrowing = async (req, res, next) => {
 
         // Temukan semua peminjaman berdasarkan library_id
         const data = await Borrowing.findAll({
-            attributes: ['details', 'status'],
-            include: [{
-                model: BookCollection,
-                as: 'bookCollection',
-                required: true,
-                where: { library_id: library_id },
-                attributes: ['book_collection_id', 'library_id', 'isbn', 'status', 'createdAt', 'updatedAt'],
-                include: [{
-                    model: Book,
-                    as: 'book',
+            attributes: ['id', 'details', 'status', 'borrowing_date', 'due_date'],
+            include: [
+                {
+                    model: BookCollection,
+                    as: 'bookCollection',
                     required: true,
-                    attributes: ['book_tittle']
-                }]
-            }]
+                    where: { library_id: library_id },
+                    attributes: ['book_collection_id', 'library_id', 'isbn', 'status', 'createdAt', 'updatedAt'],
+                    include: [{
+                        model: Book,
+                        as: 'book',
+                        required: true,
+                        attributes: ['book_tittle']
+                    }]
+                },
+                {
+                    model: Member,
+                    as: 'member',
+                    attributes: ['name']
+                }
+            ]
         });
 
 
@@ -101,4 +108,32 @@ const getAllBorrowing = async (req, res, next) => {
     }
 }
 
-module.exports = { createBorrowing, getAllBorrowing }
+const updateBorrowing = async (req, res, next) => {
+    try {
+        const { borrowing_date, due_date, status } = req.body;
+        const { id } = req.params;
+
+
+        const data = await Borrowing.findOne({
+            where: { id: id }
+        });
+
+        if (data) {
+            data.borrowing_date = borrowing_date;
+            data.due_date = due_date;
+            data.status = status;
+            await data.save();
+            res.json(data)
+        } else {
+            res.status(404).json({
+                status: 'failed',
+                message: `Book Collection with id ${data} is not found`
+            })
+        }
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = { createBorrowing, getAllBorrowing, updateBorrowing }
