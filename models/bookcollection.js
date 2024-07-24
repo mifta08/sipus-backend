@@ -10,7 +10,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      BookCollection.hasMany(models.Borrowing, {
+        foreignKey: 'book_collection_id',
+        sourceKey: 'book_collection_id',
+        as: 'borrowing'
+      });
+
+      BookCollection.belongsTo(models.Library, {
+        foreignKey: 'library_id',
+        as: 'library'
+      });
+
+      BookCollection.belongsTo(models.Book, {
+        foreignKey: 'isbn',
+        targetKey: 'isbn',
+        as: 'book'
+      });
     }
   }
   BookCollection.init({
