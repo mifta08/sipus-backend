@@ -50,6 +50,20 @@ module.exports = (sequelize, DataTypes) => {
           { where: { book_collection_id: borrowing.book_collection_id } }
         );
         console.log(`BookCollection status updated: ${updated}`);
+      },
+      afterUpdate: async (borrowing, options) => {
+        const { BookCollection } = sequelize.models;
+        if (borrowing.status === 'returned') {
+          await BookCollection.update(
+            { status: true },
+            { where: { book_collection_id: borrowing.book_collection_id } }
+          );
+        } if (borrowing.status === 'borrowed') {
+          await BookCollection.update(
+            { status: false },
+            { where: { book_collection_id: borrowing.book_collection_id } }
+          );
+        }
       }
     }
   });
