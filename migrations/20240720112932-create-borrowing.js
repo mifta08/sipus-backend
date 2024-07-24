@@ -36,6 +36,11 @@ module.exports = {
       due_date: {
         type: Sequelize.DATE
       },
+      status: {
+        type: Sequelize.ENUM('borrowed', 'returned'),
+        defaultValue: 'borrowed',
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
