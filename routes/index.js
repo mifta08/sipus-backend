@@ -8,7 +8,9 @@ const { createMember, loginMember, findAllMember, findMemberById, updateMember, 
 
 const { createBook, findAllBook, findBookById, updateBook, deleteBook } = require('../controller/bookControllers');
 
-const { createBookCollection } = require('../controller/bookCollectionControllers');
+const { createBookCollection, getAllBooksCollection, getAllLibraryByLibraryId } = require('../controller/bookCollectionControllers');
+
+const { createBorrowing, getAllBorrowing } = require('../controller/borrowingControllers');
 
 //ANCHOR Inisialisasi penggunaan router
 const router = require('express').Router();
@@ -52,8 +54,14 @@ router.patch('/book/:id', updateBook);
 router.delete('/book/:id', deleteBook);
 
 //ANCHOR - bookcollections
-router.post('/book/create-collections/', authenticate, createBookCollection)
+router.get('/bookcollections', authenticate, getAllBooksCollection); //NOTE - get all ini digunakan untuk user agar dapat melihat semua buku dari berbagai perpustakaan
 
+//NOTE - rute ini digunakan untuk admin dapat melihat semua buku dari library dia terdaftar (tidak termasuk user biasa) 
+router.get('/library-book-collection', authenticate, getAllLibraryByLibraryId)
+router.post('/book/create-collections/', authenticate, authorize(['admin']), createBookCollection);
 
+//ANCHOR - borrowing
+router.post('/borrowing/create-borrowing', authenticate, authorize(['admin']), createBorrowing)
+router.get('/borrowing', authenticate, authorize(['admin']), getAllBorrowing)
 
 module.exports = router
