@@ -17,7 +17,7 @@ const getAllBooksCollection = async (req, res, next) => {
     }
 }
 
-const getAllLibraryByLibraryId = async (req, res, next) => {
+const getAllBookByLibraryId = async (req, res, next) => {
     try {
         const employeeId = req.user.employee_id;
 
@@ -102,4 +102,58 @@ const createBookCollection = async (req, res, next) => {
     }
 }
 
-module.exports = { createBookCollection, getAllBooksCollection, getAllLibraryByLibraryId }
+const updateBookCollection = async (req, res, next) => {
+    try {
+        const { status } = req.body;
+        const { id } = req.params;
+
+        if (req.body.isbn) {
+            return res.status(400).json({
+                status: 'failed',
+                message: 'ISBN cannot be updated'
+            });
+        }
+
+        const data = await BookCollection.findOne({
+            where: { id: id }
+        });
+
+        if (data) {
+            data.status = status;
+            await data.save();
+            res.json(data)
+        } else {
+            res.status(404).json({
+                status: 'failed',
+                message: `Book Collection with id ${data} is not found`
+            })
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteBookCollection = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const data = await BookCollection.findOne({
+            where: { id: id }
+        });
+        if (data) {
+            await data.destroy();
+            res.json({
+                status: 'success',
+                message: `Book Collection with id ${id} was successfully deleted`
+            })
+        } else if (data === null) {
+            return res.status(404).json({
+                status: 'failed',
+                message: `Book Colletion with id ${id} is not found`
+            })
+
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+module.exports = { createBookCollection, getAllBooksCollection, getAllBookByLibraryId, updateBookCollection, deleteBookCollection }
