@@ -10,18 +10,48 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Borrowing.belongsTo(models.BookCollection, {
+        foreignKey: 'book_collection_id',
+        targetKey: 'book_collection_id',
+        as: 'bookCollection'
+      });
+
+      Borrowing.belongsTo(models.Member, {
+        foreignKey: 'member_id',
+        targetKey: 'member_id',
+        as: 'member'
+      });
     }
   }
   Borrowing.init({
     member_id: DataTypes.STRING,
-    book_collection_id: DataTypes.STRING,
+    book_collection_id: {
+      type: DataTypes.STRING,
+      references: {
+        model: 'BookCollections',
+        key: 'book_collection_id'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    },
     details: DataTypes.STRING,
     borrowing_date: DataTypes.DATE,
-    due_date: DataTypes.DATE
+    due_date: DataTypes.DATE,
+    status: DataTypes.ENUM('borrowed', 'returned')
   }, {
     sequelize,
     modelName: 'Borrowing',
+    hooks: {
+      afterCreate: async (borrowing, options) => {
+        console.log('Hook afterCreate triggered');
+        const { BookCollection } = sequelize.models;
+        const [updated] = await BookCollection.update(
+          { status: false },
+          { where: { book_collection_id: borrowing.book_collection_id } }
+        );
+        console.log(`BookCollection status updated: ${updated}`);
+      }
+    }
   });
   return Borrowing;
 };
