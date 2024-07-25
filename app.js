@@ -1,4 +1,5 @@
 //SECTION - Configuration Express
+require('dotenv').config();
 
 //ANCHOR - inisialized express
 const express = require('express');
