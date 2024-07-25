@@ -34,13 +34,17 @@ module.exports = {
     dialect: 'mysql',  // Ubah menjadi 'postgres' jika menggunakan PostgreSQL
     logging: false,
   },
+  test: {
+    username: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'sipus',
+    host: process.env.DB_HOST || '127.0.0.1',
+    dialect: 'mysql',
+    logging: false,
+  },
   production: {
-    username: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT || 3306,
-    dialect: 'mysql',  // Ubah menjadi 'postgres' jika menggunakan PostgreSQL
+    use_env_variable: 'MYSQL_PUBLIC_URL',  // Use DATABASE_URL for production
+    dialect: 'mysql',
     logging: false,
   },
 };
