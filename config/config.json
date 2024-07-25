@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "qhaa",
-    "password": "20030408",
+    "username": "root",
+    "password": "",
     "database": "sipus",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "port": 3306
   },
   "test": {
-    "username": "qhaa",
-    "password": "20030408",
+    "username": "root",
+    "password": "",
     "database": "sipus",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "port": 3306
   },
   "production": {
-    "username": "qhaa",
-    "password": "20030408",
+    "username": "root",
+    "password": "",
     "database": "sipus",
     "host": "127.0.0.1",
     "dialect": "mysql",
