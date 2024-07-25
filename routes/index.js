@@ -30,7 +30,7 @@ router.post('/adminSuper-login', loginAdminSuper)
 //NOTE admin hanya dapat mengakses update library
 router.get('/perpustakaan', authenticate, authorize(['super_admin']), findAllLibrary);
 router.get('/perpustakaan/:id', authenticate, authorize(['super_admin']), findLibraryById);
-router.post('/perpustakaan', authorize(['super_admin']), createNewLibrary);
+router.post('/perpustakaan', authenticate, authorize(['super_admin']), createNewLibrary);
 router.patch('/perpustakaan/:id', authenticate, updateLibrary);
 router.delete('/perpustakaan/:id', authenticate, authorize(['super_admin']), deleteLibrary);
 
