@@ -18,7 +18,14 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     employee_id: DataTypes.INTEGER,
     address: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
+    },
     password: DataTypes.STRING,
     role: DataTypes.ENUM('admin')
   }, {
@@ -30,8 +37,10 @@ module.exports = (sequelize, DataTypes) => {
         admin.password = await bcrypt.hash(admin.password, salt);
       },
       beforeUpdate: async (admin) => {
-        const salt = await bcrypt.genSalt(10);
-        admin.password = await bcrypt.hash(admin.password, salt);
+        if (admin.changed('password')) { // Hash password only if it was changed
+          const salt = await bcrypt.genSalt(10);
+          admin.password = await bcrypt.hash(admin.password, salt);
+        }
       }
     },
   });
