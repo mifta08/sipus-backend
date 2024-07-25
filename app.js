@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 // Import database configuration
-const sequelize = require('./config/db');
+// const sequelize = require('./config/db');
 
 //ANCHOR - port configuration
 const port = process.env.PORT || 3030;
