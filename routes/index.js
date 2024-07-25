@@ -61,7 +61,7 @@ router.patch('/book/:id', authenticate, authorize(['admin']), updateBook);
 router.delete('/book/:id', authenticate, authorize(['admin']), deleteBook);
 
 //ANCHOR - bookcollections
-router.get('/bookcollections', authenticate, getAllBooksCollection); //NOTE - get all ini digunakan untuk user agar dapat melihat semua buku dari berbagai perpustakaan
+router.get('/bookcollections', getAllBooksCollection); //NOTE - get all ini digunakan untuk user agar dapat melihat semua buku dari berbagai perpustakaan
 
 //NOTE - rute ini digunakan untuk admin dapat melihat semua buku dari library dia terdaftar (tidak termasuk user biasa) 
 router.get('/bookcollections/library-book-collection', authenticate, authorize(['admin']), getAllBookByLibraryId)
