@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 //ANCHOR - port configuration
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //ANCHOR - Middleware untuk mem-parsing body JSON
 app.use(express.json());
