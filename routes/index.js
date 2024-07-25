@@ -54,8 +54,8 @@ router.delete('/member/:id', authenticate, authorize(['user']), deleteMember);
 
 
 //ANCHOR - Books
-router.get('/book', findAllBook);
-router.get('/book/:id', findBookById);
+router.get('/book', authenticate, findAllBook);
+router.get('/book/:id', authenticate, findBookById);
 router.post('/book/create-book', authenticate, authorize(['admin']), createBook);
 router.patch('/book/:id', authenticate, authorize(['admin']), updateBook);
 router.delete('/book/:id', authenticate, authorize(['admin']), deleteBook);
