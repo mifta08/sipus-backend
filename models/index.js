@@ -19,7 +19,9 @@ if (config.use_env_variable) {
     process.env.DB_PASSWORD || config.password,
     {
       host: process.env.DB_HOST || config.host,
-      dialect: 'mysql',
+      dialect: config.dialect || 'mysql',
+      port: process.env.DB_PORT || config.port,
+      // Optionally include other configuration options from config
       ...config
     }
   );
