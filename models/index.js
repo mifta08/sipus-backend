@@ -10,10 +10,18 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (process.env.DB_URI) {
+  sequelize = new Sequelize(process.env.DB_URI, {
+    define: { timestamps: false },
+    dialect: config.dialect || 'mysql',
+  });
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: config.host,
+    dialect: config.dialect || 'mysql',
+    port: config.port,
+    define: { timestamps: false },
+  });
 }
 
 fs
